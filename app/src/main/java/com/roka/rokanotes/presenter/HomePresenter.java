@@ -16,6 +16,7 @@ import com.roka.rokanotes.views.activity.BaseActivity;
 import com.roka.rokanotes.views.iview.IHomeView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Roka on 5/20/2017.
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class HomePresenter extends BasePresenter implements IHomePresenter {
     private IHomeView iHomeView;
     private ActionMode mActionMode;
+    private List<NotesModel> selectedList=new ArrayList<>();
     private ActionMode.Callback actionModeCallback=new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -49,7 +51,9 @@ public class HomePresenter extends BasePresenter implements IHomePresenter {
     private TouchListener<NotesModel> notesTouchListener = new TouchListener<NotesModel>() {
         @Override
         public void onClick(NotesModel data) {
-
+            if (mActionMode!=null){
+                toggleItem(data);
+            }
         }
 
         @Override
@@ -57,8 +61,23 @@ public class HomePresenter extends BasePresenter implements IHomePresenter {
             if (mActionMode == null) {
                 mActionMode = ((BaseActivity)iHomeView.getActivity()).startSupportActionMode(actionModeCallback);
             }
+            toggleItem(data);
         }
     };
+
+    private void toggleItem(NotesModel data) {
+        data.setSelected(!data.isSelected());
+       if (data.isSelected())
+          selectedList.add(data);
+        else
+           selectedList.remove(data);
+        if (selectedList.size()>0)
+        mActionMode.setTitle(selectedList.size()+" Items Selected");
+        else {
+            mActionMode.finish();
+            mActionMode = null;
+        }
+    }
 
     public HomePresenter(IHomeView iHomeView) {
         super(iHomeView);

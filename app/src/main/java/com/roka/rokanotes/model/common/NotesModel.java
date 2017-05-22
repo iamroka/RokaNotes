@@ -12,6 +12,7 @@ public class NotesModel {
     private boolean isPinned;
     private boolean isChecked;
     private int notesCardColor;
+    private boolean isSelected;
 
     public NotesModel(String noteTitle, List<String> notesMessage, boolean isPinned, boolean isChecked, int notesCardColor) {
         this.noteTitle = noteTitle;
@@ -23,6 +24,14 @@ public class NotesModel {
 
     public NotesModel() {
 
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public String getNoteTitle() {
