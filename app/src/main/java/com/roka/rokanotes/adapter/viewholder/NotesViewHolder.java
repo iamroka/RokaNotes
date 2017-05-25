@@ -1,5 +1,6 @@
 package com.roka.rokanotes.adapter.viewholder;
 
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.roka.rokanotes.adapter.listener.TouchListener;
@@ -19,10 +20,12 @@ public class NotesViewHolder extends BaseViewHolder<NotesModel> {
 
     @Override
     public void populateData(final NotesModel data) {
+        ViewCompat.setTransitionName(itemView, data.getNoteTitle());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onClick(data);
+                //listener.onClick(data);
+                listener.animateNoteClick(getAdapterPosition(),data,itemView);
             }
         });
         itemView.setOnLongClickListener(new View.OnLongClickListener() {
